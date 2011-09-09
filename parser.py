@@ -1,19 +1,46 @@
 #!/usr/bin/python
-'''
-This is a simple command line based HTML parser. 
+''' Warning: 
+Regular expressions passing on the command line, there shouldn't be any 
+string that matches against two or more Regex.
 
-You should specify regular expessions as entity. Let's say E. 
+Example:
 
-E1 ---> E2 ---> E3 ---> E4
+    +-----------------------------------------------------------------+
+    |                                                                 |
+    |   Welcome to our website!                                       |
+    |                                                                 |
+    |   2010.09.09                                                    |
+    |        I created this parser                                    |
+    |                                                                 |
+    |   2010.09.10                                                    |
+    |        Hang over! arggh                                         |
+    |                                                                 |
+    |                             Last activity: 2010.09.09 12:27 P.M |
+    |   About|Contact|....                                            |
+    +-----------------------------------------------------------------+
 
-It will try to search E1, and then E2, and E3 ... etc. 
+Let's say you want to extract my activity information from this site.
+
+Then you need to pass following regex elements as arguments:
+
+    "\d{4}.\d{2}.\d{2}" ".{10,}"
+
+Even if this parser finds the text, it won't return the captured elements.
+Use named group to retrieve them.
+
+    "(?P<Day>\d{4}.\d{2}.\d{2})" "(?P<Activity>.{10,})" or more explicitly:
+    "(?P<Day>\d{4}.\d{2}.\d{2})$" "(?P<Activity>.{10,})" 
+
 '''
 import sys
 import re
-# E1 ---> E2 ---> E3
+import optparse
+
+def fix_whitespaces(text):
+    return re.sub(r'\s+', ' ', text)
 
 def print_dict(d):
-    print ', '.join([ '%s:%s' % (k, v) for k, v in d.iteritems() ])
+    print fix_whitespaces(','.join([ '%s' % (v) for k, v in d.iteritems() ]))
 
 def break_text(html, trim=True):
     ' >.< '
@@ -23,28 +50,33 @@ def break_text(html, trim=True):
 
 def all_elements(texts, args):
     args = [ unicode(a, 'utf8') for a in args ]
-    captures = [ ]
+    args_count = len(args)
+    captures = { }
+    enum = enumerate(args)
     for text in texts:
         text = unicode(text, 'utf8')
-        for i, arg in enumerate(args):
+        for i, arg in enum:
             m = re.match(arg, text, re.I|re.U|re.S)
             if m:
-                yield i, m.groupdict()
-                break
+                captures.update(m.groupdict())
+                if i == args_count-1: 
+                    yield captures
+                else:
+                    break
+        else:
+            enum = enumerate(args)
 
 if __name__ == '__main__':
-    fn, element_specs = sys.argv[1], sys.argv[2:]
-    with open(fn) as f:
-        texts = break_text(f.read())
-        last_index = 0
-        captured_indexes = [ ]
-        captures = { }
-        for index, text in all_elements(texts, element_specs):
-            if index == len(element_specs)-1:
-                captures.update(text)
-                print_dict(captures)
-            else:
-                captures.update(text)
-            captured_indexes.append(index)
-            last_index = index
+    parser = optparse.OptionParser()
+    parser.add_option('-i', '--input', dest='input_stream', action='store', help='Sets input stream. "-" to standard input, or filename')
+    (options, args) = parser.parse_args()
+    if not options.input_stream:
+        parser.error('-i is required option, please specify input.')
+    if not args:
+        parser.error('No element specified, please specify one or more elements to extract.')
+    element_specs, fn = args, options.input_stream
+    fd = (fn == '-') and sys.stdin_stream or open(fn, 'r')
+    texts = break_text(fd.read())
+    for text in all_elements(texts, element_specs):
+        print_dict(text)
 

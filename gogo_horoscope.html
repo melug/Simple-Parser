@@ -1,0 +1,1107 @@
+<html><head>
+		<link rel="SHORTCUT ICON" href="http://stat.gogo.mn/images/head/gogo.ico">
+		
+		<title>GoGo Зурхай</title>
+
+		<script type="text/javascript" src="http://stat.gogo.mn/staticcontents/yahoo/build/yahoo/yahoo.js"></script>
+		<script type="text/javascript" src="http://stat.gogo.mn/staticcontents/yahoo/build/connection/connection.js"></script>
+		<script type="text/javascript" src="http://stat.gogo.mn/staticcontents/yahoo/build/event/event.js"></script>
+		<script type="text/javascript" src="http://stat.gogo.mn/staticcontents/yahoo/build/dom/dom.js"></script>
+		<script type="text/javascript" src="http://stat.gogo.mn/staticcontents/yahoo/build/tabview/tabview.js"></script>
+		<script type="text/javascript" src="http://stat.gogo.mn/staticcontents/horoscope/js/png.js"></script>
+		<script type="text/javascript" src="http://stat.gogo.mn/staticcontents/horoscope/js/horoscope/mglyoson.js"></script>
+		
+		<script type="text/javascript" src="http://stat.gogo.mn/staticcontents/horoscope/js/horoscope/west-horoscope.js"></script>
+		<script type="text/javascript" src="http://stat.gogo.mn/staticcontents/horoscope/js/east-horoscope.js"></script>
+		<script type="text/javascript" src="http://stat.gogo.mn/staticcontents/horoscope/js/horoscope.js"></script>
+		<script type="text/javascript" src="http://stat.gogo.mn/staticcontents/horoscope/js/banner.js"></script>
+ 
+		<link rel="stylesheet" type="text/css" href="http://stat.gogo.mn/staticcontents/yahoo/build/tabview/assets/tabview.css">
+		<link rel="stylesheet" type="text/css" href="http://stat.gogo.mn/staticcontents/yahoo/build/tabview/assets/border_tabs.css">
+		<link rel="stylesheet" type="text/css" href="http://stat.gogo.mn/staticcontents/news/css/news_menu2.css">
+		 		
+	 			<link rel="stylesheet" type="text/css" href="http://stat.gogo.mn/staticcontents/horoscope/css/goh_tab.css">
+				<link rel="stylesheet" type="text/css" href="http://stat.gogo.mn/staticcontents/horoscope/css/goh_common.css">
+				<link rel="stylesheet" type="text/css" href="http://stat.gogo.mn/staticcontents/horoscope/css/gh_east.css">
+				<link rel="stylesheet" type="text/css" href="http://stat.gogo.mn/staticcontents/horoscope/css/gh_west.css">
+				
+		<link rel="stylesheet" type="text/css" href="http://stat.gogo.mn/css/head/head.css">
+		<link rel="stylesheet" type="text/css" href="http://stat.gogo.mn/staticcontents/gn/css/gn_menu.css">
+		<link rel="stylesheet" type="text/css" href="http://stat.gogo.mn/staticcontents/horoscope/css/zodiac_symbols.css"> 		     
+		<style type="text/css">
+		#oneZodiacTab .yui-content { padding:0em; } /* pad content container */
+		
+	</style>
+		<style type="text/css">
+			body{
+					background-color:#DBDBDB;
+					font-family:arial,helvetica,clean,terminal,sans-serif;
+					font-size:small;
+					font-size-adjust:none;
+					font-style:normal;
+					font-variant:normal;
+					font-weight:normal;
+					line-height:122%;
+					margin:0;
+					padding:0;
+					text-align:center;
+			} 
+			#demo .loading {
+			    background-position:center center;
+			    background-repeat:no-repeat;
+				}
+			#demo .loading * {
+		    	display:none;
+				}
+		</style>
+		<style>
+			body{
+				margin: 0px;
+				padding: 0px;
+			}
+			.go_body_left_border {
+				background-image:url(http://stat.gogo.mn/images/head/go_body_left_border.gif);
+				background-position:left center;
+				background-repeat:repeat-y;
+				width:14px;
+			}
+			.go_body_right_border {
+				background-image:url(http://stat.gogo.mn/images/head/go_body_right_border.gif);
+				background-position:right center;
+				background-repeat:repeat-y;
+				width:14px;
+			}
+		</style>
+		<script type="text/javascript">
+
+
+
+
+  function getZodiacInfOnMobile(){
+	  
+	  var phonenum = document.getElementById("phonenum").value;
+	  var zid = document.getElementById("zid").value;
+	  var time = document.getElementById("time").value;
+	  var range = document.getElementById("range").value;
+		var handleSuccess = function(o){
+				if(o.responseText !== undefined){
+					document.getElementById('mr').innerHTML = o.responseText;
+				}
+			};
+			var handleFailure = function(o){
+				if(o.responseText !== undefined){
+					alert("Уучларай, алдаа гарлаа.");
+				}
+			};
+		
+			var callback =
+			{
+				success:handleSuccess,
+				failure:handleFailure
+			};		
+			var request = YAHOO.util.Connect.asyncRequest('POST',  '/horoscope/mobileRequest.htm' , callback, "zid=" +zid  +"&phonenum=" + phonenum +  "&time=" +time +  "&range=" + range);
+		 
+		}
+  
+  	
+
+
+
+var selectedIndex;
+function toggle(id){
+	if (selectedIndex!=null && selectedIndex != id){
+	
+		if(document.getElementById(selectedIndex))
+			document.getElementById(selectedIndex).style.display = 'none';		
+	} else {
+		document.getElementById('szm').style.display = 'none';
+	}
+
+		selectedIndex = id;
+		document.getElementById(id).style.display = 'block';
+	
+} 
+function changeWhoRu(htmlName,type,id){
+	  						document.getElementById("whoruDesc").value = type;
+						    changeSubLinkClass(id);
+					var handleSuccess = function(o){ 
+							if(o.responseText !== undefined){
+								if('jilord'==htmlName||'druid'==htmlName){
+									document.getElementById("zodiac_menu").style.display = 'none';
+									document.getElementById("jil_menu").style.display = 'none';
+									
+									
+								}else {
+								if('dorno'==htmlName){
+									if(selectedWhoRuYear){
+											selectedWhoRuYear.src = findSelectedPicYear(selectedWhoRuYear.src);
+											selectedWhoRuYear = "";
+									}
+										document.getElementById("zodiac_menu").style.display = 'none';
+										document.getElementById("jil_menu").style.display = 'block';
+									}else {
+									if(selectWhoruZodiac){
+											selectWhoruZodiac.src = findSelectedPic(selectWhoruZodiac.src);
+											selectWhoruZodiac = "";
+									}
+									
+										document.getElementById("jil_menu").style.display = 'none';
+										document.getElementById("zodiac_menu").style.display = 'block';
+									}
+								}
+								document.getElementById('whoruDesc').innerHTML =o.responseText; 
+								toggle('szm');
+							}
+						};
+						var handleFailure = function(o){
+							if(o.responseText !== undefined){
+								alert("sorry");
+							}
+						};
+					
+						var callback =
+						{
+							success:handleSuccess,
+							failure:handleFailure
+						};		
+						var request = YAHOO.util.Connect.asyncRequest('POST',  '/horoscope/whoareyou/'+htmlName+'.htm' , callback);
+	}
+		tabview();
+<!--
+
+//-->
+</script>
+	</head>
+	<body id="everyBody">
+	<input type="hidden" value="" id="westHType">
+	<table width="100%" height="100%" cellpadding="0" cellspacing="0" border="0">
+			<tbody><tr>
+				<td align="center" valign="top">
+					<table cellpadding="0" cellspacing="0" border="0" height="100%" style="background-color: #FFFFFF;">
+						<tbody><tr> 
+							<td valign="top">
+								<table width="100%" cellpadding="0" cellspacing="0" border="0" height="100%">
+									<tbody><tr>
+										<td height="10" valign="top">
+											
+<style>
+	.gogo_header_table,.gogo_header_table div,.gogo_header_table td{font-family: tahoma;font-size: 11px;}
+	.gogo_header_table .top_line{background: url("http://stat.gogo.mn/css2009/head/head_top_bg_line.png") bottom repeat-x;}
+	.gogo_header_table .top_line a{color: #006697;text-decoration: none;}
+	.gogo_header_table .top_line .head_splitter{font-size: 8px;color: #00aff0;}
+	.gogo_header_table .top_line a:hover{text-decoration: underline;}
+</style>
+<table class="gogo_header_table" width="100%" cellpadding="0" cellspacing="0" border="0">
+	<tbody><tr>
+		<td style="padding-left: 20px;" height="24" class="top_line" align="left" valign="middle">
+			<!-- Сайн байна уу Bayasal | Гарах -->
+		</td>
+		<td style="padding-right: 20px;" height="24" class="top_line" align="right" valign="middle">
+			<a href="http://news.gogo.mn">Вэб</a>&nbsp;<span class="head_splitter">|</span>&nbsp;
+			<a href="http://map.gogo.mn">UB Map</a>&nbsp;<span class="head_splitter">|</span>&nbsp;
+			<a href="http://mail.gogo.mn">Э-Шуудан</a>&nbsp;<span class="head_splitter">|</span>&nbsp;
+			<a href="http://music.gogo.mn">Хөгжим</a>&nbsp;<span class="head_splitter">|</span>&nbsp;
+			<a href="http://mobile.gogo.mn">Гар утас</a>&nbsp;<span class="head_splitter">|</span>&nbsp;
+			<a href="http://game.gogo.mn">Тоглоом</a>&nbsp;<span class="head_splitter">|</span>&nbsp;
+			<a href="http://blog.gogo.mn">Блог</a>&nbsp;<span class="head_splitter">|</span>&nbsp;
+			<a href="http://share.gogo.mn">Share</a>&nbsp;<span class="head_splitter">|</span>&nbsp;
+			<a href="http://messenger.gogo.mn">Мессенжер</a>&nbsp;<span class="head_splitter">|</span>&nbsp;
+			<a href="http://friends.gogo.mn">Найзууд</a>&nbsp;<span class="head_splitter">|</span>&nbsp;
+			<a href="http://book.gogo.mn">Э-Ном</a>&nbsp;<span class="head_splitter">|</span>&nbsp;
+			<a href="http://tv.gogo.mn">TV</a>&nbsp;<span class="head_splitter">|</span>&nbsp;
+			<a href="http://waw.gogo.mn">WAW</a>
+			
+		</td>
+	</tr>
+	<tr>
+		<td align="center" valign="middle" colspan="2">
+			
+<style>
+	.gogo_header_mid{font-family: tahome;font-size: 11px;color: #333333}
+	.gogo_header_mid a{font-family: tahoma;font-size: 11px;}
+	.gogo_header_mid a img{border: none;}
+	.gogo_header_mid td,div{font-family: tahoma;font-size: 11px;}
+	.gogo_header_mid #searchtitle{white-space: nowrap;}
+	.gogo_header_mid #typesel .suboption {padding-left: 20px;font-style: italic;}
+	.gogo_header_mid #typesel{background: #ffffff;}
+	.gogo_header_mid #typesel a,#typesel span{display: block;text-decoration: none;line-height: 17px;padding: 0 10px;color: #333333;}
+	.gogo_header_mid #typesel a:hover{background: #01aef0;color: white}
+	.gogo_header_mid input{color: #333333;font-size: 13px;}
+</style>
+<table class="gogo_header_mid" cellpadding="0" cellspacing="0" border="0">
+	<tbody><tr>
+		<td width="170">
+			<img alt="GoGo" src="http://stat.gogo.mn/css2009/head/small_logo.png" width="170" height="95">
+		</td>
+		<td valign="middle" align="left">
+									<table class="searchnew_pad" width="100%" cellpadding="0" cellspacing="0" border="0">
+										<tbody><tr>
+											<td>
+												<div style="width:414px;height:20px;border: 5px solid #01aef0;padding: 3px;">
+													<form id="gogo_search_form" style="margin: 0px;padding: 0px;" action="http://news.gogo.mn/search" method="get">
+													<table height="100%" width="100%" cellpadding="0" cellspacing="0" border="0">
+														<tbody><tr>
+															<td valign="middle">
+																<!-- onclick="this.size=1"
+																	onmouseout="this.size=1" 
+																	onmouseover="this.size=this.options.length"  -->
+																<script type="text/javascript">
+																var last_desc_id = 'typesel';
+					
+																function showHide(e, id) {
+																	if(last_desc_id!=id){
+																		uptypesel();
+																	}
+																	stopB(e);
+																	var div = document.getElementById(id);
+																	var dp = "";
+																	if (div.style.display == "") {
+																		dp = "none";
+																	}
+																	div.style.display = dp;
+																	last_desc_id = id;
+																	return false;
+																}
+																function stopB(e) {
+																	if (!e) {
+																		e = window.event;
+																	}
+																	e.cancelBubble = true;
+																}
+																
+																document.onclick = function (event) {
+																	var elems = document.getElementById(last_desc_id);
+																	if (elems.style.display == "") {
+																		showHide(event,last_desc_id);
+																	}
+																};
+																
+																function changeSearchPath(linkel,formval,typeval,aval){
+																	//alert(linkel.innerHTML);
+																	document.getElementById("searchtitle").innerHTML = linkel.innerHTML;
+																	document.getElementById("gogo_search_form").action = formval;
+																	document.getElementById("gogo_search_type").value = typeval;
+																	document.getElementById("gogo_search_a").value = aval;
+																}
+																</script>
+																<div style="border-right: 3px solid #01aef0;padding-left: 5px;">
+																	<table cellpadding="0" cellspacing="0" border="0">
+																		<tbody><tr>
+																			<td id="searchtitle">
+																				Мэдээ
+																			</td>
+																			<td>
+																				<a href="javascript:void(0)" onclick="this.blur(); showHide(event,'typesel'); return false;"><img src="http://stat.gogo.mn/css2009/head/downbtn.png"></a>
+																			</td>
+																		</tr>
+																	</tbody></table>
+																</div>
+																<div id="typesel" style="position: absolute; width:130px;border: 1px solid  #b2b2b2;display: none;">
+																	<a href="javascript:void(0);" onclick="changeSearchPath(this,'http://www.gogo.mn/search','','');">Вэб</a>
+																	<a href="javascript:void(0);" onclick="changeSearchPath(this,'http://news.gogo.mn/search','','');">Мэдээ</a>
+																	<span class="disabled">UB Map</span>
+																	<a href="javascript:void(0);" onclick="changeSearchPath(this,'http://map.gogo.mn/','q','1');" class="suboption">Байгууллага</a>
+																	<a href="javascript:void(0);" onclick="changeSearchPath(this,'http://map.gogo.mn/','l','2');" class="suboption">Орон сууц</a>
+																	<a href="javascript:void(0);" onclick="changeSearchPath(this,'http://map.gogo.mn/','d','3');" class="suboption">Гэр хороолол</a>
+																	<span class="disabled">Хөгжим</span>
+																	<a href="javascript:void(0);" onclick="changeSearchPath(this,'http://music.gogo.mn/search','audio','');" class="suboption">Дуугаар</a>
+																	<a href="javascript:void(0);" onclick="changeSearchPath(this,'http://music.gogo.mn/search','album','');" class="suboption">Цомгоор</a>
+																	<a href="javascript:void(0);" onclick="changeSearchPath(this,'http://music.gogo.mn/search','artist','');" class="suboption">Дуучнаар</a>
+																	<a href="javascript:void(0);" onclick="changeSearchPath(this,'http://music.gogo.mn/search','video','');" class="suboption">Видео</a>
+																	<a href="javascript:void(0);" onclick="changeSearchPath(this,'http://music.gogo.mn/search','karaoke','');" class="suboption">Караоке</a>
+																	<a href="javascript:void(0);" onclick="changeSearchPath(this,'http://music.gogo.mn/search','foreign','');" class="suboption">Гадаад</a>
+																	<span class="disabled">Гар утас</span>
+																	<a href="javascript:void(0);" onclick="changeSearchPath(this,' http://mobile.gogo.mn/searchs.jsp','co','');" class="suboption">Кодоор</a>
+																	<a href="javascript:void(0);" onclick="changeSearchPath(this,' http://mobile.gogo.mn/searchs.jsp','ti','');" class="suboption">Нэрээр</a>
+																	<a href="javascript:void(0);" onclick="changeSearchPath(this,' http://mobile.gogo.mn/searchs.jsp','ar','');" class="suboption">Бүтээгчээр</a>
+																	<a href="javascript:void(0);" onclick="changeSearchPath(this,'http://blog.gogo.mn/search','','');">Блог</a>
+																	<a href="javascript:void(0);" onclick="changeSearchPath(this,'http://book.gogo.mn/search.html','','','Э-Ном');">Э-Ном</a>
+																	<a href="javascript:void(0);" onclick="changeSearchPath(this,'http://waw.gogo.mn/search.htm','','','WAW');">WAW</a>
+																</div>
+															</td>
+															<td width="100%" style="padding: 0 5px;">
+																<input type="text" name="q" value="" style="width: 100%;border: none;">
+																<input type="hidden" id="gogo_search_type" name="op" value="">
+																<input type="hidden" id="gogo_search_a" name="a" value="1">
+															</td>
+														</tr>
+													</tbody></table>
+													</form>
+												</div>
+											</td>
+											<td style="padding-left: 8px;">
+												<input onclick="document.getElementById('gogo_search_form').submit();" type="image" width="45" height="36" src="http://stat.gogo.mn/css2009/head/haih.png">
+											</td>
+										</tr>
+									</tbody></table>
+		</td>
+	</tr>
+</tbody></table>
+		</td>
+	</tr>
+</tbody></table>
+										</td>
+									</tr>
+									<tr>
+										<td align="center" valign="top">
+
+											<!-- body begin -->
+		<table align="center" style="padding: 0px 10px 0px 10px; margin: 0px;" cellpadding="0" cellspacing="0" height="100%">
+		<tbody><tr>
+			<td valign="top" height="10">
+				 
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="gn_category">
+		
+			<a class="selected" href="http://news.gogo.mn">Нүүр</a>
+			|
+		
+			<a href="http://news.gogo.mn/i/2">Улс төр</a>
+			|
+		
+			<a href="http://economics.gogo.mn"><b>Эдийн засаг</b></a>
+			|
+		
+			<a href="http://news.gogo.mn/i/4">Эрүүл мэнд</a>
+			|
+		
+			<a href="http://news.gogo.mn/i/9">Боловсрол</a>
+			|
+		
+			<a href="http://news.gogo.mn/i/5">Соёл урлаг</a>
+			|
+		
+			<a href="http://news.gogo.mn/i/6">Спорт</a>
+			|
+		
+			<a href="http://news.gogo.mn/i/7">Нийгэм</a>
+			|
+		
+			<a href="http://news.gogo.mn/i/8">Муухай монгол хүн</a>
+			|
+		
+			<a href="http://news.gogo.mn/i/10">Шар мэдээ</a>
+			|
+		
+			<a href="http://news.gogo.mn/i/12">Дэлхийд</a>
+			|
+		
+			<a href="http://news.gogo.mn/i/21"><b>GoGo Cafe</b></a>
+			|
+		
+			<a href="http://news.gogo.mn/i/23">Миний МОНГОЛ</a>
+			
+		
+</div>
+
+<div class="gn_menu" style="padding: 5px;">
+	
+			<a href="http://news.gogo.mn/photos">
+			
+				
+				
+					Фото				
+								
+			
+			</a>
+			|
+	
+			<a href="http://news.gogo.mn/videos">
+			
+				
+				
+					Видео				
+								
+			
+			</a>
+			|
+	
+			<a href="http://news.gogo.mn/horoscope">
+			
+				
+					<b>Зурхай</b>
+				
+								
+			
+			</a>
+			|
+	
+			<a href="http://news.gogo.mn/weather">
+			
+				
+				
+					<b>Цаг агаар</b>				
+								
+			
+			</a>
+			|
+	
+			<a href="http://economics.gogo.mn/exchange/graphic.jsp">
+			
+				
+				
+					Валютын ханш				
+								
+			
+			</a>
+			|
+	
+			<a href="http://news.gogo.mn/tvguide">
+			
+				
+				
+					ТВ Хөтөлбөр				
+								
+			
+			</a>
+			|
+	
+			<a href="http://news.gogo.mn/schedule">
+			
+				
+				
+					Үзвэр, аялал				
+								
+			
+			</a>
+			|
+	
+			<a href="http://news.gogo.mn/advice">
+			
+				
+				
+					Зөвлөгөө				
+								
+			
+			</a>
+			|
+	
+			<a href="http://news.gogo.mn/joke">
+			
+				
+				
+					Хошин шог				
+								
+			
+			</a>
+			|
+	
+			<a href="http://news.gogo.mn/zar">
+			
+				
+				
+					Мессэж зар				
+								
+			
+			</a>
+			|
+	
+			<a href="http://news.gogo.mn/job">
+			
+				
+				
+					Ажлын байр				
+								
+			
+			</a>
+			|
+	
+			<a href="http://survey.gogo.mn">
+			
+				
+				
+					<font color="#006699"><b>Судалгаа</b></font>				
+								
+			
+			</a>
+			
+								
+</div>
+
+
+ 
+			</td>
+		</tr>
+			<tr>
+				<td style="background-color: #f2f2f2; padding: 10px 10px 0px 10px; margin: 0px;" valign="top">
+					
+					
+					<div id="goh_body">
+						<div id="doc" style="width: 100%;">
+							
+						<div class="yui-navset yui-navset-top" id="demo"><ul class="yui-nav"><li><a href="#"><em>Дорнын зурхай </em></a></li><li class=" selected" title="active"><a href="#"><em>Өрнийн зурхай</em></a></li><li><a href="#"><em>Чи хэн бэ? </em></a></li><li><a href="#"><em>Монгол ёсон</em></a></li></ul><div class="yui-content "><div style="display: none; "></div><div style="display: block; ">
+
+ 
+
+
+
+
+
+
+ 
+<table class="west_horoscope_table" border="0" cellpadding="0" cellspacing="0">
+	<tbody><tr>
+		<td class="tab_body_table" align="left" valign="top">
+			<table class="west_horoscope_table" border="0" cellpadding="0" cellspacing="0">
+				 
+				<tbody><tr>
+					<td class="zodiac_list_pad_td" align="center" valign="top" colspan="2">
+						<table cellpadding="0" cellspacing="0">
+							<tbody><tr>
+								
+								<td valign="top" style="padding-left: 2px;">
+								<a href="javascript:void(0);" onclick="showOneZ('2','honi.png'); selectZ('2','honi.png');">
+								<img id="img_2" onmouseout="mouseOut_w('2');" onmouseover="mouseOver_w('2');" src="http://stat.gogo.mn/images/zodiac/menuZodiac/honi.png">	
+								</a>			
+								</td>
+							
+									
+								<td valign="top" style="padding-left: 2px;">
+								<a href="javascript:void(0);" onclick="showOneZ('3','uher.png'); selectZ('3','uher.png');">
+								<img id="img_3" onmouseout="mouseOut_w('3');" onmouseover="mouseOver_w('3');" src="http://stat.gogo.mn/images/zodiac/menuZodiac/uher.png">	
+								</a>			
+								</td>
+							
+									
+								<td valign="top" style="padding-left: 2px;">
+								<a href="javascript:void(0);" onclick="showOneZ('4','iher.png'); selectZ('4','iher.png');">
+								<img id="img_4" onmouseout="mouseOut_w('4');" onmouseover="mouseOver_w('4');" src="http://stat.gogo.mn/images/zodiac/menuZodiac/iher.png">	
+								</a>			
+								</td>
+							
+									
+								<td valign="top" style="padding-left: 2px;">
+								<a href="javascript:void(0);" onclick="showOneZ('5','havch.png'); selectZ('5','havch.png');">
+								<img id="img_5" onmouseout="mouseOut_w('5');" onmouseover="mouseOver_w('5');" src="http://stat.gogo.mn/images/zodiac/menuZodiac/havch.png">	
+								</a>			
+								</td>
+							
+									
+								<td valign="top" style="padding-left: 2px;">
+								<a href="javascript:void(0);" onclick="showOneZ('6','arslan.png'); selectZ('6','arslan.png');">
+								<img id="img_6" onmouseout="mouseOut_w('6');" onmouseover="mouseOver_w('6');" src="http://stat.gogo.mn/images/zodiac/menuZodiac/arslan.png">	
+								</a>			
+								</td>
+							
+									
+								<td valign="top" style="padding-left: 2px;">
+								<a href="javascript:void(0);" onclick="showOneZ('7','ohin.png'); selectZ('7','ohin.png');">
+								<img id="img_7" onmouseout="mouseOut_w('7');" onmouseover="mouseOver_w('7');" src="http://stat.gogo.mn/images/zodiac/menuZodiac/ohin.png">	
+								</a>			
+								</td>
+							
+									
+								<td valign="top" style="padding-left: 2px;">
+								<a href="javascript:void(0);" onclick="showOneZ('8','jinluur.png'); selectZ('8','jinluur.png');">
+								<img id="img_8" onmouseout="mouseOut_w('8');" onmouseover="mouseOver_w('8');" src="http://stat.gogo.mn/images/zodiac/menuZodiac/jinluur.png">	
+								</a>			
+								</td>
+							
+									
+								<td valign="top" style="padding-left: 2px;">
+								<a href="javascript:void(0);" onclick="showOneZ('9','hilents.png'); selectZ('9','hilents.png');">
+								<img id="img_9" onmouseout="mouseOut_w('9');" onmouseover="mouseOver_w('9');" src="http://stat.gogo.mn/images/zodiac/menuZodiac/hilents.png">	
+								</a>			
+								</td>
+							
+									
+								<td valign="top" style="padding-left: 2px;">
+								<a href="javascript:void(0);" onclick="showOneZ('10','num.png'); selectZ('10','num.png');">
+								<img id="img_10" onmouseout="mouseOut_w('10');" onmouseover="mouseOver_w('10');" src="http://stat.gogo.mn/images/zodiac/menuZodiac/num.png">	
+								</a>			
+								</td>
+							
+									
+								<td valign="top" style="padding-left: 2px;">
+								<a href="javascript:void(0);" onclick="showOneZ('11','matar.png'); selectZ('11','matar.png');">
+								<img id="img_11" onmouseout="mouseOut_w('11');" onmouseover="mouseOver_w('11');" src="http://stat.gogo.mn/images/zodiac/menuZodiac/matar.png">	
+								</a>			
+								</td>
+							
+									
+								<td valign="top" style="padding-left: 2px;">
+								<a href="javascript:void(0);" onclick="showOneZ('12','bumba.png'); selectZ('12','bumba.png');">
+								<img id="img_12" onmouseout="mouseOut_w('12');" onmouseover="mouseOver_w('12');" src="http://stat.gogo.mn/images/zodiac/menuZodiac/bumba.png">	
+								</a>			
+								</td>
+							
+									
+								<td valign="top" style="padding-left: 2px;">
+								<a href="javascript:void(0);" onclick="showOneZ('13','zagas.png'); selectZ('13','zagas.png');">
+								<img id="img_13" onmouseout="mouseOut_w('13');" onmouseover="mouseOver_w('13');" src="http://stat.gogo.mn/images/zodiac/menuZodiac/zagas.png">	
+								</a>			
+								</td>
+							
+								
+							</tr>
+						</tbody></table>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top" width="225px">
+						<table class="west_left_menu" border="0" align="center" cellpadding="0" cellspacing="0" width="80%">
+							<tbody><tr>
+								<td height="37" colspan="4" style="" align="center">
+										<img alt="" id="zodia_menu_head" src="http://stat.gogo.mn/staticcontents/horoscope/images/bgmenuHead.gif">
+							 	</td>
+								
+							</tr>
+							<tr>
+								<td width="20px;"> &nbsp;</td>
+								<td width="15" height="37" class="left_menu_img" align="left"> <img alt="" src="http://stat.gogo.mn/staticcontents/gn/images/schedule/bullet.png"> </td>
+								<td class="left_menu_title" align="left"><a onclick="showDay();">Өнөөдөр</a></td>
+								<td width="20px">&nbsp;</td>
+							</tr>
+							<tr>
+								<td width="20px;"> &nbsp;</td>
+								<td width="15" height="37" class="left_menu_img" align="left"> <img alt="" src="http://stat.gogo.mn/staticcontents/gn/images/schedule/bullet.png"> </td>
+								<td class="left_menu_title" align="left"><a onclick="showWeek();">Долоо хоног</a></td>
+								<td width="20px">&nbsp;</td>
+							</tr>
+							<tr>
+							<td> &nbsp;</td>
+								<td width="15" height="37" class="left_menu_img" align="left"> <img alt="" src="http://stat.gogo.mn/staticcontents/gn/images/schedule/bullet.png"> </td>
+								<td class="left_menu_title" align="left"><a onclick="showMonth();" style="">Сарын зурхай</a></td>
+								<td width="20px">&nbsp;</td>
+							</tr>
+							<tr>
+							<td> &nbsp;</td>
+								<td width="15" height="37" class="left_menu_img" align="left"> <img alt="" src="http://stat.gogo.mn/staticcontents/gn/images/schedule/bullet.png"> </td>
+								<td class="left_menu_title" align="left"><a onclick="showYear();">Жилийн зурхай</a></td>
+								<td width="20px">&nbsp;</td>
+							</tr>
+							<tr>
+							<td> &nbsp;</td>
+								<td width="15" height="37" class="left_menu_img" align="left"> <img alt="" src="http://stat.gogo.mn/staticcontents/gn/images/schedule/bullet.png"> </td>
+								<td class="left_menu_title" align="left"><a onclick="showOther();">Бусад зурхай</a></td>
+								<td width="20px">&nbsp;</td>
+							</tr>
+						</tbody></table>
+						<br>
+						<table width="200" border="0" cellpadding="0" cellspacing="0" align="center">
+						<tbody><tr>
+						<td align="center"><b style="color:#006599">Өдөр тутмын өрнийн зурхайг гар утсандаа (зөвхөн Мобикомын хэрэглэгч) мессэжээр хүлээн авах</b></td>
+						</tr>
+						
+						<tr>
+						<td>
+						<table width="100%" cellpadding="0" cellspacing="5" style="padding: 5px;" bgcolor="#F7F7F7">
+							<tbody><tr>
+								<td>Утасны дугаар (Мобиком):</td>
+								<td width="25">
+										<input type="text" name="phonenum" id="phonenum" size="8" style="width: 90px;">
+								</td>
+							</tr>
+							<tr>
+								<td>Орд:</td>
+								<td>
+										<select id="zid" name="zid" style="width: 90px;">
+											
+											<option value="2">Хонь</option>
+											
+											<option value="3">Үхэр</option>
+											
+											<option value="4">Хамтатгах</option>
+											
+											<option value="5">Мэлхий</option>
+											
+											<option value="6">Арслан</option>
+											
+											<option value="7">Охин</option>
+											
+											<option value="8">Жинлүүр</option>
+											
+											<option value="9">Хилэнц</option>
+											
+											<option value="10">Нум</option>
+											
+											<option value="11">Матар</option>
+											
+											<option value="12">Хумх</option>
+											
+											<option value="13">Загас</option>
+											
+										</select>
+								</td>
+							</tr>
+							<tr>
+								<td>Хүлээн авах цаг:</td>
+								<td>
+										<select id="time" name="time" style="width: 90px;">
+															
+														<option value="0">
+															00-01															</option>
+															
+														<option value="1">
+															01-02															</option>
+															
+														<option value="2">
+															02-03															</option>
+															
+														<option value="3">
+															03-04															</option>
+															
+														<option value="4">
+															04-05															</option>
+															
+														<option value="5">
+															05-06															</option>
+															
+														<option value="6">
+															06-07															</option>
+															
+														<option value="7" selected="selected">
+															07-08															</option>
+															
+														<option value="8">
+															08-09															</option>
+															
+														<option value="9">
+															09-10															</option>
+															
+														<option value="10">
+															10-11															</option>
+															
+														<option value="11">
+															11-12															</option>
+															
+														<option value="12">
+															12-13															</option>
+															
+														<option value="13">
+															13-14															</option>
+															
+														<option value="14">
+															14-15															</option>
+															
+														<option value="15">
+															15-16															</option>
+															
+														<option value="16">
+															16-17															</option>
+															
+														<option value="17">
+															17-18															</option>
+															
+														<option value="18">
+															18-19															</option>
+															
+														<option value="19">
+															19-20															</option>
+															
+														<option value="20">
+															20-21															</option>
+															
+														<option value="21">
+															21-22															</option>
+															
+														<option value="22">
+															22-23															</option>
+															
+														<option value="23">
+															23-00															</option>
+															  
+														  </select>		
+								</td>
+							</tr>
+							<tr>
+								<td>Хугацаа:</td>
+								<td>
+										<select id="range" name="range" style="width: 90px;">
+											<option value="30" selected="selected"> 30 хоног</option>
+											<option value="60"> 60 хоног</option>
+											<option value="90"> 90 хоног</option>
+										</select>	
+								</td>
+							</tr>
+							
+							<tr>
+							<td>&nbsp;</td>
+								<td><input type="button" value="Авах" onclick="getZodiacInfOnMobile();">
+								</td>
+							</tr>
+							
+						</tbody></table>
+						</td>
+						</tr>
+						<tr>
+						<td align="center"><p></p><div id="mr">
+							 
+
+
+
+
+
+ 	<span style="color: red">
+ 		
+ 	</span>
+ 	<span>
+ 	
+ 	</span>
+						
+<p></p>
+						</div></td>
+						</tr>
+						<tr>
+						<td><br><br><p align="justify"><b>Жишээ:</b><br> 
+Та үхрийн ордны зурхайг 3 сарын хугацаанд өглөөний 9-10 цагийн хооронд мессэжээр авч байх бол доорх хэсгээс Үхэр, 9-10, 90 хоног гэсэн сонголтуудыг хийж гар утаснаасаа 533 дугаарт харгалзах кодыг илгээнэ. 
+<br><br>
+<b>Төлбөр:</b><br>
+Таны сонгосон хугацаанаас хамааран<br>30 хоног – 1500₮,<br>60 хоног – 3000₮,<br>90 хоног – 4500₮<br>
+<br>Хэрэв та 18-00 цаг хүртэлх цагуудаас сонголт хийсэн бол танд дараа өдрийн өрнийн зурхай очих болно.
+<br><br>Мөн та гар утаснаасаа үйлчилгээг авах хүсэлт илгээх боломжтой бөгөөд <a href="http://www.gogo.mn/hb"><b>ЭНД</b></a> дарж дэлгэрэнгүй мэдээлэл аваарай.</p>
+</td>
+						</tr>
+						</tbody></table>
+						
+						
+					</td>
+					<td valign="top">
+						<table style="margin: 10px;" cellpadding="0" cellspacing="0" border="0">
+							<tbody><tr>
+							<td style="border: 1px solid #d8d8d8; border-bottom: none;" valign="top">
+									<div id="westDesc">
+											 
+
+
+ 
+
+
+
+
+
+
+
+
+<table style="padding: 10px;" border="0" cellpadding="0" cellspacing="0">
+  <tbody><tr>
+
+  <td> <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  		<tbody><tr>
+  		<td>
+  			
+  		</td>
+  		</tr>
+       <tr><td><br><span class="formatted_date">Лхагва, 2011 оны 9-р сарын 7  (Өнөөдөр)</span><table style="border-bottom: 1px solid #d8d8d8" width="100%"><tbody><tr><td align="center" style="padding: 5px; padding-left:0px;"><a onclick="showOneZodiac(2," honi.png');'=""><img class="zodiac_list_img" src="http://stat.gogo.mn/images/zodiac/oneZodiac/w70/honi.png"></a><br><center class="zodiac_date_desc">Хонь<br>(3/21-4/19)</center></td><td valign="top"><br><p>9 сарын 7. Илэн далангүй байж, оюун ухаанаа ариусгах өдөр. Шинэ ажил эхлэх, хувийн ба гэр бүлийн харилцаанд хүндрэл гарна. Санаандгүй зарлага нь таныг санхүүгийн хүндрэлд ч оруулж болзошгүй. Эрсдэл хийхээс зайлсхий. Төрөлхийн зохицох мэдрэмжээ сонс. Энэ нь танд бий болсон хүнд нөхцөлөөс нэр төртэйгөөр гарахад тусална. </p><div align="right">
+       			<a href="javascript:void(0);" onclick="showOneZodiac(2,'honi.png');" class="gon_delgr">  Дэлгэрэнгүй » </a>
+       			</div></td></tr></tbody></table></td></tr><tr><td><br><span class="formatted_date">Лхагва, 2011 оны 9-р сарын 7  (Өнөөдөр)</span><table style="border-bottom: 1px solid #d8d8d8" width="100%"><tbody><tr><td align="center" style="padding: 5px; padding-left:0px;"><a onclick="showOneZodiac(4," iher.png');'=""><img class="zodiac_list_img" src="http://stat.gogo.mn/images/zodiac/oneZodiac/w70/iher.png"></a><br><center class="zodiac_date_desc">Хамтатгах<br>(5/21-6/21)</center></td><td valign="top"><br><p>9 сарын 7. Энэ өдөр сэтгэл ханамж авахгүй. Дунд насныханд хүнд үе. Эрх мэдэл унаж, ивээн тэтгэгчдийн дунд сөрөг хандлага гарна. Эргэн тойрны хүмүүстэйгээ харилцахдаа зөрчлөөс зайлсхийж, асуудал үүсгэхээс сэргийл.</p><div align="right">
+       			<a href="javascript:void(0);" onclick="showOneZodiac(4,'iher.png');" class="gon_delgr">  Дэлгэрэнгүй » </a>
+       			</div></td></tr></tbody></table></td></tr><tr><td><br><span class="formatted_date">Лхагва, 2011 оны 9-р сарын 7  (Өнөөдөр)</span><table style="border-bottom: 1px solid #d8d8d8" width="100%"><tbody><tr><td align="center" style="padding: 5px; padding-left:0px;"><a onclick="showOneZodiac(8," jinluur.png');'=""><img class="zodiac_list_img" src="http://stat.gogo.mn/images/zodiac/oneZodiac/w70/jinluur.png"></a><br><center class="zodiac_date_desc">Жинлүүр<br>(9/23-10/22)</center></td><td valign="top"><br><p>9 сарын 7. Адал явдалтай өдөр. Найз чинь мөнгөтэй холбоотой таагүй асуудлаар тантай уулзана. Энэ нь та түүнтэй холбоо барилгүй удсанаас болсон учраас түүнд гомдох хэрэггүй. Маргаангүйгээр асуудлыг шийдэх хамгийн сайн зам бол шулуун шударга, нээлттэй байх явдал юм. Үүнийг үл тооцвол энэ өдөр тийм ч муу өдөр биш байна шүү. Ажиллаж байгаа төслийн урт хугацааны төлбөр хийгдэнэ. Эрүүл агаарт биеийн тамирын дасгал хий.</p><div align="right">
+       			<a href="javascript:void(0);" onclick="showOneZodiac(8,'jinluur.png');" class="gon_delgr">  Дэлгэрэнгүй » </a>
+       			</div></td></tr></tbody></table></td></tr><tr><td><br><span class="formatted_date">Лхагва, 2011 оны 9-р сарын 7  (Өнөөдөр)</span><table style="border-bottom: 1px solid #d8d8d8" width="100%"><tbody><tr><td align="center" style="padding: 5px; padding-left:0px;"><a onclick="showOneZodiac(9," hilents.png');'=""><img class="zodiac_list_img" src="http://stat.gogo.mn/images/zodiac/oneZodiac/w70/hilents.png"></a><br><center class="zodiac_date_desc">Хилэнц<br>(10/23-11/21)</center></td><td valign="top"><br><p>9 сарын 7. Ажил дээр нөхцөл байдал туйлын тайван, үүний улмаас та хэд хэдэн, хөдөлмөр зарцуулалт ихтэй ажлуудыг нэг дор богино хугацаанд хийж чадна. Нөхцөл байдалд захирагдан, урсгалын дагуу мөнх хөвөхийг хүсээгүй л бол зуршил болсон амьдралын хэв маягаасаа татгалзвал ашигтай. </p><div align="right">
+       			<a href="javascript:void(0);" onclick="showOneZodiac(9,'hilents.png');" class="gon_delgr">  Дэлгэрэнгүй » </a>
+       			</div></td></tr></tbody></table></td></tr><tr><td><br><span class="formatted_date">Лхагва, 2011 оны 9-р сарын 7  (Өнөөдөр)</span><table style="border-bottom: 1px solid #d8d8d8" width="100%"><tbody><tr><td align="center" style="padding: 5px; padding-left:0px;"><a onclick="showOneZodiac(10," num.png');'=""><img class="zodiac_list_img" src="http://stat.gogo.mn/images/zodiac/oneZodiac/w70/num.png"></a><br><center class="zodiac_date_desc">Нум<br>(11/22-12/21)</center></td><td valign="top"><br><p>9 сарын 7. Ядаргаатай өдөр. Амьдралын долгион таныг аван дээш доош шидэж өгнө. Гэр бүлд тань асуудал гарч ирнэ. Хуучны дургүйцэл, хөндийрөл сөхөгдөнө. Гэвч иймэрхүү дургүйцлээ ил бүү гарга. Догшин, ууртай хүнтэй тулгарвал байдлыг бүү хурцатга. Аливааг хийхээсээ өмнө сайн тунгаа, учир нь танд байгаа хэмээн итгэж байсан боломж таны толгой дээр хүнд ачаа авчирна. </p><div align="right">
+       			<a href="javascript:void(0);" onclick="showOneZodiac(10,'num.png');" class="gon_delgr">  Дэлгэрэнгүй » </a>
+       			</div></td></tr></tbody></table></td></tr><tr><td><br><span class="formatted_date">Лхагва, 2011 оны 9-р сарын 7  (Өнөөдөр)</span><table style="border-bottom: 1px solid #d8d8d8" width="100%"><tbody><tr><td align="center" style="padding: 5px; padding-left:0px;"><a onclick="showOneZodiac(11," matar.png');'=""><img class="zodiac_list_img" src="http://stat.gogo.mn/images/zodiac/oneZodiac/w70/matar.png"></a><br><center class="zodiac_date_desc">Матар<br>(12/22-1/19)</center></td><td valign="top"><br><p>9 сарын 7. Түнштэйгээ ярилцах, хичээл сургууль, шинэ ажил эхлэхэд таагүй өдөр. Өнөөдөр амлалт өгөх, дэмий ярих, албан баримттай ажиллахаас зайлсхий. Хувь тавилангийн бэлдсэн сорилтыг дотны хүнийхээ дэргэд, зөвлөгөөг нь сонсон давбал арай дээр. Өөрийн болон дотныхныхоо эрүүл мэндэд анхаар. Хэрвээ боломжтой бол салхинд гар. </p><div align="right">
+       			<a href="javascript:void(0);" onclick="showOneZodiac(11,'matar.png');" class="gon_delgr">  Дэлгэрэнгүй » </a>
+       			</div></td></tr></tbody></table></td></tr><tr><td><br><span class="formatted_date">Лхагва, 2011 оны 9-р сарын 7  (Өнөөдөр)</span><table style="border-bottom: 1px solid #d8d8d8" width="100%"><tbody><tr><td align="center" style="padding: 5px; padding-left:0px;"><a onclick="showOneZodiac(12," bumba.png');'=""><img class="zodiac_list_img" src="http://stat.gogo.mn/images/zodiac/oneZodiac/w70/bumba.png"></a><br><center class="zodiac_date_desc">Хумх<br>(1/20-2/18)</center></td><td valign="top"><br><p>9 сарын 7. Бодит байдлаа бэхжүүлэхэд тааламжтай. Таны мэдрэмж, дотоодод буй нууцлаг байдал чинь зорилгодоо хүрэхэд саад болж болзошгүй. Санаачлага гарга. Найзуудынхаа тусламжинд найдсанаас ирээдүйн амжилт чинь ноль руу дөхөх болно.</p><div align="right">
+       			<a href="javascript:void(0);" onclick="showOneZodiac(12,'bumba.png');" class="gon_delgr">  Дэлгэрэнгүй » </a>
+       			</div></td></tr></tbody></table></td></tr><tr><td><br><span class="formatted_date">Лхагва, 2011 оны 9-р сарын 7  (Өнөөдөр)</span><table style="border-bottom: 1px solid #d8d8d8" width="100%"><tbody><tr><td align="center" style="padding: 5px; padding-left:0px;"><a onclick="showOneZodiac(13," zagas.png');'=""><img class="zodiac_list_img" src="http://stat.gogo.mn/images/zodiac/oneZodiac/w70/zagas.png"></a><br><center class="zodiac_date_desc">Загас<br>(2/19-3/20)</center></td><td valign="top"><br><p>9 сарын 7. Энэ өдөр олонхийг нь санхүүгийн аз дайрна. Муугүй мөнгө олж амжилттай хөрөнгө оруулалт хийнэ. Хэрвээ та ихээхэн мөнгө олбол   үүнийгээ   үл   хөдлөх   хөрөнгө   болгох   нь таны ирээдүйд хэрэгтэй байх болно.</p><div align="right">
+       			<a href="javascript:void(0);" onclick="showOneZodiac(13,'zagas.png');" class="gon_delgr">  Дэлгэрэнгүй » </a>
+       			</div></td></tr></tbody></table></td></tr><tr><td><br><span class="formatted_date">Лхагва, 2011 оны 9-р сарын 7  (Өнөөдөр)</span><table style="border-bottom: 1px solid #d8d8d8" width="100%"><tbody><tr><td align="center" style="padding: 5px; padding-left:0px;"><a onclick="showOneZodiac(5," havch.png');'=""><img class="zodiac_list_img" src="http://stat.gogo.mn/images/zodiac/oneZodiac/w70/havch.png"></a><br><center class="zodiac_date_desc">Мэлхий<br>(6/22-7/22)</center></td><td valign="top"><br><p>9 сарын 7. Таны тааламжтай байдал нэмэгдэнэ. Үйл ажиллагаа чинь ирээдүйн өөрчлөлтөд хүргэнэ. Шинэ ажлаа эхлэх, хуучин төслөө хэрэгжүүлэх гайхалтай боломжийг ашигла. Эрүүл мэнддээ анхаарлаа хандуул. Өндрөөс унах , гэмтэх магадлал өндөр байгаа тул болгоомжтой бай. </p><div align="right">
+       			<a href="javascript:void(0);" onclick="showOneZodiac(5,'havch.png');" class="gon_delgr">  Дэлгэрэнгүй » </a>
+       			</div></td></tr></tbody></table></td></tr><tr><td><br><span class="formatted_date">Лхагва, 2011 оны 9-р сарын 7  (Өнөөдөр)</span><table style="border-bottom: 1px solid #d8d8d8" width="100%"><tbody><tr><td align="center" style="padding: 5px; padding-left:0px;"><a onclick="showOneZodiac(6," arslan.png');'=""><img class="zodiac_list_img" src="http://stat.gogo.mn/images/zodiac/oneZodiac/w70/arslan.png"></a><br><center class="zodiac_date_desc">Арслан<br>(7/23-8/22)</center></td><td valign="top"><br><p>9 сарын 7. Өнөөдөр та  өөрийн хувь тавиландаа эзэн болно. Таны оролцсон ихэнх ажил хэрэг бүтнэ. Шинэ санаа сэдэн шинийг эрэлхийлэх зан чанартай хүмүүс хачин жигтэй алхамууд хийнэ. Та гадаад байдлаараа сайхан байгаа ч ядарч, дарамтыг мэдэрнэ. Эрүүл мэнд, мэдрэлийн тогтолцоогоо бэхжүүлэх талаар бод.</p><div align="right">
+       			<a href="javascript:void(0);" onclick="showOneZodiac(6,'arslan.png');" class="gon_delgr">  Дэлгэрэнгүй » </a>
+       			</div></td></tr></tbody></table></td></tr><tr><td><br><span class="formatted_date">Лхагва, 2011 оны 9-р сарын 7  (Өнөөдөр)</span><table style="border-bottom: 1px solid #d8d8d8" width="100%"><tbody><tr><td align="center" style="padding: 5px; padding-left:0px;"><a onclick="showOneZodiac(3," uher.png');'=""><img class="zodiac_list_img" src="http://stat.gogo.mn/images/zodiac/oneZodiac/w70/uher.png"></a><br><center class="zodiac_date_desc">Үхэр<br>(4/20-5/20)</center></td><td valign="top"><br><p>9 сарын 7. Буд гарагийн нөлөө суларна. үхрүүдийн амьдралын эрч хүч тогтвортой бус байдалд байх болно. Үйл ажиллагааны хүрээг тэлэх, шинэ ажил эхлэх, зөвлөгөө өгөхөөс татгалз. Аз хийморь танаас нүүр буруулна. Иймээс урьд эхэлсэн ажлуудаа дуусгасан нь дээр.</p><div align="right">
+       			<a href="javascript:void(0);" onclick="showOneZodiac(3,'uher.png');" class="gon_delgr">  Дэлгэрэнгүй » </a>
+       			</div></td></tr></tbody></table></td></tr><tr><td><br><span class="formatted_date">Лхагва, 2011 оны 9-р сарын 7  (Өнөөдөр)</span><table style="border-bottom: 1px solid #d8d8d8" width="100%"><tbody><tr><td align="center" style="padding: 5px; padding-left:0px;"><a onclick="showOneZodiac(7," ohin.png');'=""><img class="zodiac_list_img" src="http://stat.gogo.mn/images/zodiac/oneZodiac/w70/ohin.png"></a><br><center class="zodiac_date_desc">Охин<br>(8/23-9/22)</center></td><td valign="top"><br><p>9 сарын 7. Сэтгэл зовнисон өдөр. Өнөөдөр танд ямар нэгэн үүрэг хүлээлгэвэл зөвшөөрсний хэрэггүй. Ерөнхийдөө хэзээд ч таагүйд тооцогддог ямар нэгэн зүйл болж магадгүй. Та бусдаас тусламж хүссэний ч хэрэггүй. Гагцхүү өөрийн зүрх сэтгэлд итгэ. Харин хүмүүс танаас тусламж хүсвэл түүнийг биелүүл. </p><div align="right">
+       			<a href="javascript:void(0);" onclick="showOneZodiac(7,'ohin.png');" class="gon_delgr">  Дэлгэрэнгүй » </a>
+       			</div></td></tr></tbody></table></td></tr>
+        </tbody></table></td>
+  </tr>
+   
+</tbody></table>
+
+ 
+									</div>
+								</td>
+								<td valign="top" style="padding-left: 5px">
+									<table cellpadding="0" cellspacing="0">
+										<tbody><tr>
+											<td id="hsp-west-right-1">
+												
+
+
+
+
+
+
+
+
+
+
+											</td>
+											<td id="hsp-west-right-2" style="padding-top: 5px">
+												
+
+
+
+
+
+
+
+
+
+
+											</td>
+											<td id="hsp-west-right-3" style="padding-top: 5px">
+												
+
+
+
+
+
+
+
+
+
+
+											</td>
+										</tr>
+									</tbody></table>
+
+
+
+
+								</td>
+								
+							</tr>
+							<tr>
+								<td width="100%" colspan="2">
+									<table cellpadding="0" cellspacing="0" border="0">
+										<tbody><tr>
+											<td class="tab_foot_left" width="6">
+
+											</td>
+											<td class="tab_foot_middle" width="100%">
+											</td>
+											<td class="tab_foot_right">
+											</td>
+										</tr>
+									</tbody></table>
+								</td>
+							</tr>
+						</tbody></table>
+					</td>
+				</tr>
+			</tbody></table>
+		</td>
+	</tr>
+	<tr>
+		<td width="100%">
+			<table cellpadding="0" cellspacing="0" border="0">
+				<tbody><tr>
+					<td class="tab_foot_left" width="6">
+
+					</td>
+					<td class="tab_foot_middle" width="100%">
+					</td>
+					<td class="tab_foot_right">
+					</td>
+				</tr>
+			</tbody></table>
+		</td>
+	</tr>
+</tbody></table>
+</div><div style="display: none; "></div><div style="display: none; "></div></div></div></div>
+					</div>
+
+				</td>
+			</tr>
+			<tr>
+							<td valign="bottom" style="background-color: #f2f2f2;">
+								
+<style>
+	.gogo_footer_table,.gogo_footer_table div,.gogo_footer_table td,.gogo_footer_table a,.gogo_footer_table span{font-family: tahoma;font-size: 11px;color:#63686e;}
+	.gogo_footer_table a{text-decoration: none;}
+	.gogo_footer_table a:hover{text-decoration: underline;}
+</style>
+<table class="gogo_footer_table" width="100%" cellpadding="0" cellspacing="0" border="0">
+	<tbody><tr>
+		<td height="10" style="line-height: 10px;">
+			&nbsp;
+		</td>
+	</tr>
+	<tr>
+		<td align="center" valign="bottom" style="line-height: 17px;padding: 10px 0px 10px 0px; border-top: 3px #01AEF0 solid;" class="go_footer_boder">
+			<a href="/" id="temp_set_to_home_page_a" style="display: none;">&nbsp;</a>
+			<a href="/">Нүүр хуудас</a> | 
+			<a href="javascript:void(0);" onclick="mySetHomePage(this);">Эхлэл хуудас болгох</a> | 
+			<a href="http://www.gogo.mn/about#gogo_about">Бидний тухай</a> | 
+			<a href="http://www.gogo.mn/about#gogo_terms">Үйлчилгээний ерөнхий нөхцөл</a> | 
+			<a href="http://www.gogo.mn/members/regist.html">Гишүүнээр элсэх</a>
+			<br>
+			<a href="http://www.gogo.mn/feedback">Санал хүсэлт</a> | 
+			<a href="http://www.gogo.mn/faq">Асуулт хариултууд</a> | 
+			<a href="http://www.gogo.mn/banner">Сурталчилгаа байрлуулах</a> | 
+			<a href="http://www.gogo.mn/about#gogo_contact">Холбоо барих</a>
+		</td>
+	</tr>
+	<tr>
+		<td align="center" valign="top" style=" padding: 5px;" class="go_footer_boder">
+			<span class="foot_txt" style="font-size: 10px;">© 2007-2011 Монгол Контент ХХК</span>
+		</td>
+	</tr>
+</tbody></table>
+							</td>
+						</tr>
+		</tbody></table>
+											<!-- body end -->
+
+										</td>
+									</tr>
+								</tbody></table>
+							</td> 
+						</tr>
+						
+					</tbody></table>
+				</td>
+			</tr>
+		</tbody></table>
+	
+
+
+
+<script type="text/javascript"> 
+ 	 	sendChangeDay("100");
+ 		startCalendar();
+		startChange();
+</script>
+
+</body></html>
